@@ -73,9 +73,11 @@ namespace ImpHunter {
             switch (side) {
                 case CollisionResult.LEFT:
                     position.X = other.Position.X + other.Width + carriage.Center.X;
+                    velocity.X = velocity.X * -0.98f;
                     break;
                 case CollisionResult.RIGHT:
                     position.X = other.Position.X - carriage.Center.X;
+                    velocity.X = velocity.X * -0.98f;
                     break;
             }
         }
