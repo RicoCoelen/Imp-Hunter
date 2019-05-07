@@ -37,6 +37,7 @@ namespace ImpHunter {
             cannon.Acceleration = new Vector2(0,0);
             cannon.Velocity = cannon.Velocity * 0.99f;
 
+            // check if cannon is almost stopped
             if (cannon.Velocity.X < 1 && cannon.Velocity.X > -1 && cannon.Acceleration.X < 0)
             {
                 cannon.Velocity = new Vector2(0,0);
