@@ -32,19 +32,6 @@ namespace ImpHunter {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
 
-            // add friciton and acceleration to velocity
-            cannon.Velocity += cannon.Acceleration;
-            cannon.Acceleration = new Vector2(0,0);
-            cannon.Velocity = cannon.Velocity * 0.99f;
-
-            // check if cannon is almost stopped
-            if (cannon.Velocity.X < 1 && cannon.Velocity.X > -1 && cannon.Acceleration.X < 0)
-            {
-                cannon.Velocity = new Vector2(0,0);
-            }
-
-            Console.WriteLine(cannon.Velocity);
-
             // check bounce or collision with towers
             foreach(SpriteGameObject tower in fortress.Towers.Children)
             {
@@ -64,6 +51,18 @@ namespace ImpHunter {
             if (inputHelper.MouseLeftButtonPressed() && shootTimer > SHOOT_COOLDOWN) {
                 crosshair.Expand(SHOOT_COOLDOWN);
                 shootTimer = 0;
+
+                // make a cannonball
+                Vector2 TempVelocity = new Vector2(cannon.Position.X - crosshair.Position.X, cannon.Position.Y - crosshair.Position.Y) * -1;
+                PhysicsObject TempBall = new CannonBall(new Vector2(cannon.Position.X, cannon.Position.Y), TempVelocity);
+                // put at the end of the cannon loop
+                //TempBall.Position = new Vector2(cannon.Position.X, cannon.Position.Y - cannon.Barrel.Height);
+                // create our angle from the passed in angle
+                //Vector2 angleVector = new Vector2((float)Math.Cos(cannon.Barrel.Angle), -(float)Math.Sin(cannon.Barrel.Angle));
+                // multiply the angle vector by the bullet to get its angular velocity (velocity on some angle*)
+                //TempBall.Acceleration = angleVector;
+                // add it to loop
+                Add(TempBall);
             }
 
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left))

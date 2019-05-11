@@ -41,7 +41,6 @@ namespace ImpHunter {
             Add(barrel = new PhysicsObject("spr_cannon_barrel"));
             barrel.Origin = new Vector2(barrel.Center.X, barrel.Center.Y + 20);
             barrel.Position = new Vector2(carriage.Position.X, carriage.Position.Y);
-
             Add(carriage);
         }
 
@@ -51,6 +50,17 @@ namespace ImpHunter {
         /// <param name="inputHelper"></param>
         public override void HandleInput(InputHelper inputHelper) {
             base.HandleInput(inputHelper);
+
+            // get position en remove mouse pos   
+            float dx = this.Position.X - inputHelper.MousePosition.X;
+            float dy = this.Position.Y - inputHelper.MousePosition.Y;
+
+            // use atan2 to angle the object - minus ofset of physics object
+            float tempMath = (float)Math.Atan2(dy, dx) - (float)Math.PI / 2;
+
+            // clamp it so it wont go underneath
+            this.barrel.Angle = MathHelper.Clamp(tempMath, -1, 1);
+            Console.WriteLine(this.barrel.Angle);
         }
 
         /// <summary>
@@ -59,6 +69,17 @@ namespace ImpHunter {
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
+
+            // add friciton and acceleration to velocity
+            this.Velocity += this.Acceleration;
+            this.Acceleration = new Vector2(0, 0);
+            this.Velocity = this.Velocity * 0.99f;
+
+            // check if cannon is almost stopped
+            if (this.Velocity.X < 1 && this.Velocity.X > -1 && this.Acceleration.X < 0)
+            {
+                this.Velocity = new Vector2(0, 0);
+            } 
         }
         
         /// <summary>
@@ -73,13 +94,13 @@ namespace ImpHunter {
             switch (side) {
                 case CollisionResult.LEFT:
                     position.X = other.Position.X + other.Width + carriage.Center.X;
-                    velocity.X = velocity.X * -0.98f;
                     break;
                 case CollisionResult.RIGHT:
                     position.X = other.Position.X - carriage.Center.X;
-                    velocity.X = velocity.X * -0.98f;
                     break;
             }
+            // decrease velocity by 70%
+            velocity.X = velocity.X * -0.30f;
         }
     }
 }
