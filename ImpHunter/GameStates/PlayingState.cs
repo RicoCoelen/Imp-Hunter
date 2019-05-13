@@ -34,8 +34,12 @@ namespace ImpHunter {
             cannon.Position = new Vector2(GameEnvironment.Screen.X / 2, 490);
 
             Add(fortress = new Fortress());
+            // add the enemies
             Add(smallImps);
+
+            // add the boss and the swarm that follows the boss
             Add(bossImp = new BossImp());
+            Add(new Swarm(bossImp));
 
             // Always draw the crosshair last.
             Add(crosshair = new Crosshair());

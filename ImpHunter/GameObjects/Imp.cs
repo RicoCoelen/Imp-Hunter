@@ -4,7 +4,7 @@ namespace ImpHunter
 {
     class Imp : PhysicsObject
     {
-        bool isDead = false;
+        public bool isDead = false;
         GameObject targetObject;
 
         public Imp(GameObject target) : base("spr_imp_flying") 

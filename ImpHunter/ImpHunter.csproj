@@ -65,6 +65,7 @@
     <Compile Include="GameObjects\Fortress.cs" />
     <Compile Include="GameObjects\Imp.cs" />
     <Compile Include="GameObjects\PhysicsObject.cs" />
+    <Compile Include="GameObjects\Swarm.cs" />
     <Compile Include="GameStates\PlayingState.cs" />
     <Compile Include="ImpHunter.cs" />
     <Compile Include="Program.cs" />
