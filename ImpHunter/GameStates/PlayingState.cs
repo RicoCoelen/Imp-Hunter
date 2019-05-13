@@ -3,10 +3,16 @@ using System;
 
 namespace ImpHunter {
     class PlayingState : GameObjectList{
+
+        // game objects list 
+        GameObjectList cannonBalls = new GameObjectList();
+
+        // main actors
         Cannon cannon;
         Crosshair crosshair;
         Fortress fortress;
 
+        // shoot cooldown
         private const int SHOOT_COOLDOWN = 20;
         private int shootTimer = SHOOT_COOLDOWN;
 
@@ -15,6 +21,8 @@ namespace ImpHunter {
         /// </summary>
         public PlayingState() {
             Add(new SpriteGameObject("spr_background"));
+            // draw cannonballs before cannon
+            Add(cannonBalls);
 
             Add(cannon = new Cannon());
             cannon.Position = new Vector2(GameEnvironment.Screen.X / 2, 490);
@@ -35,7 +43,15 @@ namespace ImpHunter {
             // check bounce or collision with towers
             foreach(SpriteGameObject tower in fortress.Towers.Children)
             {
+                // check if sides collide
                 cannon.CheckBounce(tower);
+                
+                // check if cannonballs colide with towers
+                foreach (CannonBall cannonball in cannonBalls.Children)
+                {
+                    cannonball.CheckBounce(tower);
+                    cannonball.CheckBounce(fortress.Wall);
+                }
             }
         }
 
@@ -52,17 +68,12 @@ namespace ImpHunter {
                 crosshair.Expand(SHOOT_COOLDOWN);
                 shootTimer = 0;
 
-                // make a cannonball
+                // make the direction of the cannonball 
                 Vector2 TempVelocity = new Vector2(cannon.Position.X - crosshair.Position.X, cannon.Position.Y - crosshair.Position.Y) * -1;
-                PhysicsObject TempBall = new CannonBall(new Vector2(cannon.Position.X, cannon.Position.Y), TempVelocity);
-                // put at the end of the cannon loop
-                //TempBall.Position = new Vector2(cannon.Position.X, cannon.Position.Y - cannon.Barrel.Height);
-                // create our angle from the passed in angle
-                //Vector2 angleVector = new Vector2((float)Math.Cos(cannon.Barrel.Angle), -(float)Math.Sin(cannon.Barrel.Angle));
-                // multiply the angle vector by the bullet to get its angular velocity (velocity on some angle*)
-                //TempBall.Acceleration = angleVector;
-                // add it to loop
-                Add(TempBall);
+                // create new cannon ball with
+                PhysicsObject TempBall = new CannonBall(cannon.Position, TempVelocity);
+                // add the cannonball
+                cannonBalls.Add(TempBall);
             }
 
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left))

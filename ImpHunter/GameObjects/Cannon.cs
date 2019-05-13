@@ -59,8 +59,8 @@ namespace ImpHunter {
             float tempMath = (float)Math.Atan2(dy, dx) - (float)Math.PI / 2;
 
             // clamp it so it wont go underneath
-            this.barrel.Angle = MathHelper.Clamp(tempMath, -1, 1);
-            Console.WriteLine(this.barrel.Angle);
+            //this.barrel.Angle = MathHelper.Clamp(tempMath, -1, 1);
+            this.barrel.Angle = tempMath;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ImpHunter {
                     position.X = other.Position.X - carriage.Center.X;
                     break;
             }
-            // decrease velocity by 70%
+            // flip and decrease velocity by 70%
             velocity.X = velocity.X * -0.30f;
         }
     }
