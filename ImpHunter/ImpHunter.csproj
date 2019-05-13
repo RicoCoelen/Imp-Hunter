@@ -58,10 +58,12 @@
     <Compile Include="GameManagement\SpriteGameObject.cs" />
     <Compile Include="GameManagement\SpriteSheet.cs" />
     <Compile Include="GameManagement\TextGameObject.cs" />
+    <Compile Include="GameObjects\BossImp.cs" />
     <Compile Include="GameObjects\Cannon.cs" />
     <Compile Include="GameObjects\CannonBall.cs" />
     <Compile Include="GameObjects\Crosshair.cs" />
     <Compile Include="GameObjects\Fortress.cs" />
+    <Compile Include="GameObjects\Imp.cs" />
     <Compile Include="GameObjects\PhysicsObject.cs" />
     <Compile Include="GameStates\PlayingState.cs" />
     <Compile Include="ImpHunter.cs" />

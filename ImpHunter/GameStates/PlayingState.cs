@@ -34,6 +34,8 @@ namespace ImpHunter {
             cannon.Position = new Vector2(GameEnvironment.Screen.X / 2, 490);
 
             Add(fortress = new Fortress());
+            Add(smallImps);
+            Add(bossImp = new BossImp());
 
             // Always draw the crosshair last.
             Add(crosshair = new Crosshair());
