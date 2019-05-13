@@ -97,5 +97,30 @@ namespace ImpHunter {
                     return CollisionResult.TOP;  
             }
         }
+
+        protected Vector2 Truncate(Vector2 vector, float length)
+        {
+            if (vector.LengthSquared() > length * length)
+            {
+                vector.Normalize();
+                vector *= length;
+            }
+            return vector;
+        }
+
+        protected void Steer(Vector2 target,float maxSpeed, float maxSteering, float arrivingRadius)
+        {
+            // move the imp to target positon using max speed en max steering
+            velocity = velocity + Truncate(Truncate(target - Position, maxSpeed) - Velocity, maxSteering);
+            // get distance to target
+            float distance = Vector2.Distance(Position, target);
+            // check if inrange of radius
+            if ((double)distance < (double)arrivingRadius)
+                // slow down if close
+                velocity = Truncate(Velocity, maxSpeed * (distance / arrivingRadius));
+            else
+                velocity = Truncate(Velocity, maxSpeed);
+        }
+    
     }
 }

@@ -6,11 +6,17 @@ namespace ImpHunter {
 
         // game objects list 
         GameObjectList cannonBalls = new GameObjectList();
+        GameObjectList smallImps = new GameObjectList();
 
         // main actors
         Cannon cannon;
         Crosshair crosshair;
         Fortress fortress;
+        BossImp bossImp;
+
+        // imp timer
+        private const float delay = 3;
+        private float remainingDelay = delay;
 
         // shoot cooldown
         private const int SHOOT_COOLDOWN = 20;
@@ -40,8 +46,18 @@ namespace ImpHunter {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
 
+            var timer = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            remainingDelay -= timer;
+
+            if (remainingDelay <= 0)
+            {
+                smallImps.Add(new Imp(cannon));
+                remainingDelay = delay;
+            }
+
             // check bounce or collision with towers
-            foreach(SpriteGameObject tower in fortress.Towers.Children)
+            foreach (SpriteGameObject tower in fortress.Towers.Children)
             {
                 // check if sides collide
                 cannon.CheckBounce(tower);
