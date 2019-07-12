@@ -65,7 +65,9 @@ namespace ImpHunter {
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
+            acceleration = force * mass;
             Velocity += Acceleration;
+            force = Vector2.Zero;
             base.Update(gameTime);
         }
 
